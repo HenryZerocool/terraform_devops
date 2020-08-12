@@ -1,166 +1,207 @@
 # Specify the provider and access details
 provider "aws" {
-  region = "${var.aws_region}"
-  access_key    = var.aws_access_key
-  secret_key    = var.aws_secret_key
+  region = "ca-central-1"
+#   access_key    = var.aws_access_key
+#   secret_key    = var.aws_secret_key
 }
 
-resource "aws_vpc" "default" {
-    cidr_block = var.vpc_cidr
-    enable_dns_hostnames = true
-    // tags {
-    //     Name = "terraform-aws-vpc"
-    // }
+resource "aws_instance" "jenkins-server" {
+#   ami           = data.aws_ami.ubuntu.id
+#   instance_type = "t3.micro"
+
+#   tags = {
+#     Name = "HelloWorld"
+#   }
+}
+resource "aws_instance" "jenkins-server" {
+#   ami           = data.aws_ami.ubuntu.id
+#   instance_type = "t3.micro"
+
+#   tags = {
+#     Name = "HelloWorld"
+#   }
+}
+resource "aws_instance" "nexus-server" {
+#   ami           = data.aws_ami.ubuntu.id
+#   instance_type = "t3.micro"
+
+#   tags = {
+#     Name = "HelloWorld"
+#   }
+}
+resource "aws_instance" "ansible-server" {
+#   ami           = data.aws_ami.ubuntu.id
+#   instance_type = "t3.micro"
+
+#   tags = {
+#     Name = "HelloWorld"
+#   }
+}
+resource "aws_instance" "tomcat-server" {
+#   ami           = data.aws_ami.ubuntu.id
+#   instance_type = "t3.micro"
+
+#   tags = {
+#     Name = "HelloWorld"
+#   }
 }
 
-resource "aws_internet_gateway" "default" {
-    vpc_id = aws_vpc.default.id
-}
+# resource "aws_vpc" "default" {
+#     cidr_block = var.vpc_cidr
+#     enable_dns_hostnames = true
+#     // tags {
+#     //     Name = "terraform-aws-vpc"
+#     // }
+# }
 
-/*
-  NAT Instance
-*/
-resource "aws_security_group" "nat" {
-    name = "vpc_nat"
-    description = "Allow traffic to pass from the private subnet to the internet"
+# resource "aws_internet_gateway" "default" {
+#     vpc_id = aws_vpc.default.id
+# }
 
-    ingress {
-        from_port = 80
-        to_port = 80
-        protocol = "tcp"
-        cidr_blocks = [var.private_subnet_cidr]
-    }
-    ingress {
-        from_port = 443
-        to_port = 443
-        protocol = "tcp"
-        cidr_blocks = [var.private_subnet_cidr]
-    }
-    ingress {
-        from_port = 22
-        to_port = 22
-        protocol = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-    }
-    ingress {
-        from_port = -1
-        to_port = -1
-        protocol = "icmp"
-        cidr_blocks = ["0.0.0.0/0"]
-    }
+# /*
+#   NAT Instance
+# */
+# resource "aws_security_group" "nat" {
+#     name = "vpc_nat"
+#     description = "Allow traffic to pass from the private subnet to the internet"
 
-    egress {
-        from_port = 80
-        to_port = 80
-        protocol = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-    }
-    egress {
-        from_port = 443
-        to_port = 443
-        protocol = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-    }
-    egress {
-        from_port = 22
-        to_port = 22
-        protocol = "tcp"
-        cidr_blocks = [var.vpc_cidr]
-    }
-    egress {
-        from_port = -1
-        to_port = -1
-        protocol = "icmp"
-        cidr_blocks = ["0.0.0.0/0"]
-    }
+#     ingress {
+#         from_port = 80
+#         to_port = 80
+#         protocol = "tcp"
+#         cidr_blocks = [var.private_subnet_cidr]
+#     }
+#     ingress {
+#         from_port = 443
+#         to_port = 443
+#         protocol = "tcp"
+#         cidr_blocks = [var.private_subnet_cidr]
+#     }
+#     ingress {
+#         from_port = 22
+#         to_port = 22
+#         protocol = "tcp"
+#         cidr_blocks = ["0.0.0.0/0"]
+#     }
+#     ingress {
+#         from_port = -1
+#         to_port = -1
+#         protocol = "icmp"
+#         cidr_blocks = ["0.0.0.0/0"]
+#     }
 
-    vpc_id = aws_vpc.default.id
+#     egress {
+#         from_port = 80
+#         to_port = 80
+#         protocol = "tcp"
+#         cidr_blocks = ["0.0.0.0/0"]
+#     }
+#     egress {
+#         from_port = 443
+#         to_port = 443
+#         protocol = "tcp"
+#         cidr_blocks = ["0.0.0.0/0"]
+#     }
+#     egress {
+#         from_port = 22
+#         to_port = 22
+#         protocol = "tcp"
+#         cidr_blocks = [var.vpc_cidr]
+#     }
+#     egress {
+#         from_port = -1
+#         to_port = -1
+#         protocol = "icmp"
+#         cidr_blocks = ["0.0.0.0/0"]
+#     }
 
-    // tags {
-    //     Name = "NATSG"
-    // }
-}
+#     vpc_id = aws_vpc.default.id
 
-resource "aws_instance" "nat" {
-    ami = "ami-056ee704806822732" # this is a special ami preconfigured to do NAT
-    availability_zone = "us-west-1b"
-    instance_type = "m1.small"
-    key_name = var.aws_key_name
-    vpc_security_group_ids = [aws_security_group.nat.id]
-    subnet_id = aws_subnet.us-west-1b-public.id
-    associate_public_ip_address = true
-    source_dest_check = false
+#     // tags {
+#     //     Name = "NATSG"
+#     // }
+# }
 
-    // tags {
-    //     Name = "VPC NAT"
-    // }
-}
+# resource "aws_instance" "nat" {
+#     ami = "ami-056ee704806822732" # this is a special ami preconfigured to do NAT
+#     availability_zone = "us-west-1b"
+#     instance_type = "m1.small"
+#     key_name = var.aws_key_name
+#     vpc_security_group_ids = [aws_security_group.nat.id]
+#     subnet_id = aws_subnet.us-west-1b-public.id
+#     associate_public_ip_address = true
+#     source_dest_check = false
 
-resource "aws_eip" "nat" {
-    instance = aws_instance.nat.id
-    vpc = true
-}
+#     // tags {
+#     //     Name = "VPC NAT"
+#     // }
+# }
 
-/*
-  Public Subnet
-*/
-resource "aws_subnet" "us-west-1b-public" {
-    vpc_id = aws_vpc.default.id
+# resource "aws_eip" "nat" {
+#     instance = aws_instance.nat.id
+#     vpc = true
+# }
 
-    cidr_block = var.public_subnet_cidr
-    availability_zone = "us-west-1b"
+# /*
+#   Public Subnet
+# */
+# resource "aws_subnet" "us-west-1b-public" {
+#     vpc_id = aws_vpc.default.id
 
-    // tags {
-    //     Name = "Public Subnet"
-    // }
-}
+#     cidr_block = var.public_subnet_cidr
+#     availability_zone = "us-west-1b"
 
-resource "aws_route_table" "us-west-1b-public" {
-    vpc_id = aws_vpc.default.id
+#     // tags {
+#     //     Name = "Public Subnet"
+#     // }
+# }
 
-    route {
-        cidr_block = "0.0.0.0/0"
-        gateway_id = aws_internet_gateway.default.id
-    }
+# resource "aws_route_table" "us-west-1b-public" {
+#     vpc_id = aws_vpc.default.id
 
-    // tags {
-    //     Name = "Public Subnet"
-    // }
-}
+#     route {
+#         cidr_block = "0.0.0.0/0"
+#         gateway_id = aws_internet_gateway.default.id
+#     }
 
-resource "aws_route_table_association" "us-west-1b-public" {
-    subnet_id = aws_subnet.us-west-1b-public.id
-    route_table_id = aws_route_table.us-west-1b-public.id
-}
+#     // tags {
+#     //     Name = "Public Subnet"
+#     // }
+# }
 
-/*
-  Private Subnet
-*/
-resource "aws_subnet" "us-west-1b-private" {
-    vpc_id = aws_vpc.default.id
+# resource "aws_route_table_association" "us-west-1b-public" {
+#     subnet_id = aws_subnet.us-west-1b-public.id
+#     route_table_id = aws_route_table.us-west-1b-public.id
+# }
 
-    cidr_block = var.private_subnet_cidr
-    availability_zone = "us-west-1b"
+# /*
+#   Private Subnet
+# */
+# resource "aws_subnet" "us-west-1b-private" {
+#     vpc_id = aws_vpc.default.id
 
-    // tags {
-    //     Name = "Private Subnet"
-    // }
-}
+#     cidr_block = var.private_subnet_cidr
+#     availability_zone = "us-west-1b"
 
-resource "aws_route_table" "us-west-1b-private" {
-    vpc_id = aws_vpc.default.id
+#     // tags {
+#     //     Name = "Private Subnet"
+#     // }
+# }
 
-    route {
-        cidr_block = "0.0.0.0/0"
-        instance_id = aws_instance.nat.id
-    }
+# resource "aws_route_table" "us-west-1b-private" {
+#     vpc_id = aws_vpc.default.id
 
-    // tags {
-    //     Name = "Private Subnet"
-    // }
-}
+#     route {
+#         cidr_block = "0.0.0.0/0"
+#         instance_id = aws_instance.nat.id
+#     }
 
-resource "aws_route_table_association" "us-west-1b-private" {
-    subnet_id = aws_subnet.us-west-1b-private.id
-    route_table_id = aws_route_table.us-west-1b-private.id
-}
+#     // tags {
+#     //     Name = "Private Subnet"
+#     // }
+# }
+
+# resource "aws_route_table_association" "us-west-1b-private" {
+#     subnet_id = aws_subnet.us-west-1b-private.id
+#     route_table_id = aws_route_table.us-west-1b-private.id
+# }
