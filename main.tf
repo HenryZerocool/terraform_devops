@@ -5,7 +5,7 @@ provider "aws" {
   secret_key = var.aws_secret_key
 }
 resource "aws_instance" "jenkins-server" {
-  ami             = "ami-0cb4ab005c0b6e1fe"
+  ami             = "ami-0b2848c53206628ff"
   instance_type   = "t2.micro"
   private_ip      = "172.31.10.222"
   security_groups = ["devopsz"]
@@ -25,7 +25,7 @@ resource "aws_instance" "nexus-server" {
   }
 }
 resource "aws_instance" "ansible-server" {
-  ami             = "ami-0ab45f63088cb1508"
+  ami             = "ami-07652c46476ac5828"
   instance_type   = "t2.micro"
   private_ip      = "172.31.11.234"
   security_groups = ["devopsz"]
@@ -35,7 +35,7 @@ resource "aws_instance" "ansible-server" {
   }
 }
 resource "aws_instance" "tomcat-server" {
-  ami             = "ami-03b559ce3dcb191dd"
+  ami             = "ami-03a805f78ab594ff7"
   instance_type   = "t2.micro"
   private_ip      = "172.31.12.44"
   security_groups = ["devopsz"]
