@@ -1,49 +1,48 @@
 # Specify the provider and access details
 provider "aws" {
-  region = "ca-central-1"
-#   access_key    = var.aws_access_key
-#   secret_key    = var.aws_secret_key
-}
-
-resource "aws_instance" "jenkins-server" {
-#   ami           = data.aws_ami.ubuntu.id
-#   instance_type = "t3.micro"
-
-#   tags = {
-#     Name = "HelloWorld"
-#   }
+  region     = "ca-central-1"
+  access_key = var.aws_access_key
+  secret_key = var.aws_secret_key
 }
 resource "aws_instance" "jenkins-server" {
-#   ami           = data.aws_ami.ubuntu.id
-#   instance_type = "t3.micro"
-
-#   tags = {
-#     Name = "HelloWorld"
-#   }
+  ami             = "ami-0cb4ab005c0b6e1fe"
+  instance_type   = "t2.micro"
+  private_ip      = "172.31.10.222"
+  security_groups = ["devopsz"]
+  availability_zone = "ca-central-1b"
+  tags = {
+    Name = "Jenkins Server"
+  }
 }
 resource "aws_instance" "nexus-server" {
-#   ami           = data.aws_ami.ubuntu.id
-#   instance_type = "t3.micro"
-
-#   tags = {
-#     Name = "HelloWorld"
-#   }
+  ami             = "ami-0172946220997be95"
+  instance_type   = "t2.micro"
+  private_ip      = "172.31.29.188"
+  security_groups = ["devopsz"]
+  availability_zone = "ca-central-1a"
+  tags = {
+    Name = "Nexus Server"
+  }
 }
 resource "aws_instance" "ansible-server" {
-#   ami           = data.aws_ami.ubuntu.id
-#   instance_type = "t3.micro"
-
-#   tags = {
-#     Name = "HelloWorld"
-#   }
+  ami             = "ami-0ab45f63088cb1508"
+  instance_type   = "t2.micro"
+  private_ip      = "172.31.11.234"
+  security_groups = ["devopsz"]
+  availability_zone = "ca-central-1b"
+  tags = {
+    Name = "Ansible Server"
+  }
 }
 resource "aws_instance" "tomcat-server" {
-#   ami           = data.aws_ami.ubuntu.id
-#   instance_type = "t3.micro"
-
-#   tags = {
-#     Name = "HelloWorld"
-#   }
+  ami             = "ami-03b559ce3dcb191dd"
+  instance_type   = "t2.micro"
+  private_ip      = "172.31.12.44"
+  security_groups = ["devopsz"]
+  availability_zone = "ca-central-1b"
+  tags = {
+    Name = "Tomcat Server"
+  }
 }
 
 # resource "aws_vpc" "default" {
